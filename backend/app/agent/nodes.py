@@ -124,13 +124,13 @@ async def enrich_contact(state: AgentState) -> AgentState:
     state["current_step"] = "confirming"
     state["confirmation_status"] = "pending"
     
-    msg = f"**Extracted & Enriched Details:**\n" \
-          f"- **Name**: {contact.get('full_name')}\n" \
-          f"- **Company**: {company}\n" \
-          f"- **Email**: {contact.get('email')}\n" \
-          f"- **Phone**: {contact.get('phone')}\n" \
-          f"- **Website**: {contact.get('website')}\n" \
-          f"- **LinkedIn**: {contact.get('linkedin')}\n\n" \
+    msg = f"Extracted & Enriched Details:\n" \
+          f"- Name: {contact.get('full_name')}\n" \
+          f"- Company: {company}\n" \
+          f"- Email: {contact.get('email')}\n" \
+          f"- Phone: {contact.get('phone')}\n" \
+          f"- Website: {contact.get('website')}\n" \
+          f"- LinkedIn: {contact.get('linkedin')}\n\n" \
           f"Please review and approve these details before saving."
           
     state["messages"].append(AIMessage(content=msg))
