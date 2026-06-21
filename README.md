@@ -1,14 +1,14 @@
-# AI Sales Assistant (Contact Digitization Platform)
+# CRM Orchestration System (Contact Digitization Platform)
 
-An end-to-end AI-powered CRM digitization platform that uses computer vision and natural language processing to extract, enrich, and save business card contacts into a Google Sheet while providing real-time WhatsApp notifications to managers. 
+An end-to-end automated CRM digitization platform that uses computer vision and natural language processing to extract, enrich, and save business card contacts into a Google Sheet while providing real-time WhatsApp notifications to managers. 
 
 This platform uses **LangGraph** for resilient stateful workflow orchestration and **Gemini 2.5 Flash Lite** for both vision (image OCR) and native multimodal audio transcription.
 
 ---
 
-## 🏗 Architectural Overview (LangGraph Agent)
+## Architectural Overview (LangGraph Agent)
 
-The core logic of the AI Sales Assistant is orchestrated via a fully stateful, cyclic graph built on **LangGraph**. It utilizes a finite state machine to manage human-in-the-loop interactions.
+The core logic of the CRM Orchestration System is orchestrated via a fully stateful, cyclic graph built on **LangGraph**. It utilizes a finite state machine to manage human-in-the-loop interactions.
 
 ### Agent Workflow (Node by Node)
 1. **`process_input`**: The router node. It reads the incoming message from the React UI. If it's an image, it routes to `extract_vision`. If audio, to `process_audio`. If text, it evaluates whether the user is confirming a pending extraction or simply chatting.
@@ -23,7 +23,7 @@ The core logic of the AI Sales Assistant is orchestrated via a fully stateful, c
 
 ---
 
-## ⚙️ Environment Variables Setup
+## Environment Variables Setup
 
 Before running the project, you must set up your credentials. In the `backend` directory, duplicate the `.env.example` file and rename it to `.env`. 
 
@@ -31,7 +31,7 @@ Before running the project, you must set up your credentials. In the `backend` d
 # MongoDB (Leave as is for local Docker deployment)
 MONGODB_URL=mongodb://mongo:27017
 
-# Google AI Core (Gemini)
+# Google Core (Gemini)
 GOOGLE_API_KEY=your_gemini_api_key_here
 
 # Google Sheets Configuration
@@ -49,7 +49,7 @@ Ensure your target Google Sheet has been "Shared" with the `client_email` addres
 
 ---
 
-## 🚀 Build, Run, and Test Locally
+## Build, Run, and Test Locally
 
 This project is fully containerized using Docker, allowing you to run the frontend, backend, and MongoDB checkpointer simultaneously with a single command.
 
@@ -70,14 +70,14 @@ This command will pull the necessary images, install all Python/Node dependencie
 ### 3. Testing the Workflow
 1. Open the Frontend UI.
 2. Drag and drop a business card image into the chat input.
-3. Wait for the agent to extract the text and enrich the data.
+3. Wait for the system to extract the text and enrich the data.
 4. Review the returned payload. Type "Yes" to approve.
-5. Check your Google Sheet to verify the new row has been appended!
+5. Check your Google Sheet to verify the new row has been appended.
 6. Click the microphone icon to record a voice note, and verify the transcript is attached to the spreadsheet row.
 
 ---
 
-## ☁️ Deployment Guide
+## Deployment Guide
 
 Because the application is stateless at the container level and relies on MongoDB for state management, it is perfectly suited for modern cloud hosting.
 
@@ -87,7 +87,7 @@ Google Cloud Run is highly recommended for the FastAPI backend as it scales to z
 2. Submit the backend build to Google Artifact Registry.
 3. Deploy the container:
    ```bash
-   gcloud run deploy ai-sales-backend \
+   gcloud run deploy crm-backend \
      --source ./backend \
      --port 8000 \
      --set-env-vars MONGODB_URL="your_atlas_uri",GOOGLE_API_KEY="..." \
@@ -102,4 +102,4 @@ Google Cloud Run is highly recommended for the FastAPI backend as it scales to z
 4. Add an environment variable `VITE_API_URL` pointing to your newly deployed Cloud Run backend URL.
 5. Click **Deploy**.
 
-Your AI Sales Assistant is now live and globally accessible!
+Your CRM Orchestration System is now live and globally accessible.
