@@ -41,7 +41,7 @@ const ChatContainer: React.FC = () => {
           formData.append('message', `${type}:${content}`);
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://crm-backend-k9tp.onrender.com';
       const response = await fetch(`${apiUrl}/api/chat/${sessionId}`, {
         method: 'POST',
         body: formData
