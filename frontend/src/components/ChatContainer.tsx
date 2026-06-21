@@ -41,7 +41,8 @@ const ChatContainer: React.FC = () => {
           formData.append('message', `${type}:${content}`);
       }
 
-      const response = await fetch(`http://localhost:8000/api/chat/${sessionId}`, {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/api/chat/${sessionId}`, {
         method: 'POST',
         body: formData
       });
