@@ -126,8 +126,8 @@ async def update_row_audio(contact_id: str, audio_url: str) -> bool:
         row_index = 2 # 1 is header
         for record in records:
             if str(record.get('ID', '')) == str(contact_id):
-                # Update Audio URL column, assuming it's the 6th column (F)
-                await worksheet.update_cell(row_index, 6, audio_url)
+                # Update Audio URL column, assuming it's the 8th column (H)
+                await worksheet.update_cell(row_index, 8, audio_url)
                 return True
             row_index += 1
     except Exception as e:
