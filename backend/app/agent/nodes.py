@@ -25,10 +25,9 @@ class EnrichmentInfo(BaseModel):
     linkedin: str = Field(description="Company LinkedIn URL")
 
 def get_extractor(schema):
-    primary = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite", google_api_key=settings.GOOGLE_API_KEY).with_structured_output(schema)
+    primary = ChatGoogleGenerativeAI(model="gemini-3.0-flash", google_api_key=settings.GOOGLE_API_KEY).with_structured_output(schema)
     fallback_1 = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=settings.GOOGLE_API_KEY).with_structured_output(schema)
-    # Note: gemini-3.0-flash is a hypothetical future model fallback as requested
-    fallback_2 = ChatGoogleGenerativeAI(model="gemini-3.0-flash", google_api_key=settings.GOOGLE_API_KEY).with_structured_output(schema)
+    fallback_2 = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite", google_api_key=settings.GOOGLE_API_KEY).with_structured_output(schema)
     
     return primary.with_fallbacks([fallback_1, fallback_2])
 
