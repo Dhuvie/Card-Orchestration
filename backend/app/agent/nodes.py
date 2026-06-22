@@ -199,12 +199,10 @@ async def send_whatsapp(state: AgentState) -> AgentState:
     try:
         contact = state.get("extracted_contact", {})
         phone = contact.get("phone", "")
-        name = contact.get("full_name", "Unknown")
-        
         # Here you would typically use an alert number, but we'll try the contact phone or a hardcoded manager phone.
         manager_phone = settings.WHATSAPP_MANAGER_PHONE or phone
         
-        await send_whatsapp_notification(manager_phone, name)
+        await send_whatsapp_notification(manager_phone, contact)
         
         state["current_step"] = "none"
         state["confirmation_status"] = "none"

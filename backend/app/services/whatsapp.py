@@ -5,7 +5,7 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
-async def send_whatsapp_notification(phone_number: str, contact_name: str):
+async def send_whatsapp_notification(phone_number: str, contact: dict):
     account_sid = settings.TWILIO_ACCOUNT_SID
     auth_token = settings.TWILIO_AUTH_TOKEN
     from_number = settings.TWILIO_WHATSAPP_FROM
@@ -30,10 +30,26 @@ async def send_whatsapp_notification(phone_number: str, contact_name: str):
             from_num_formatted = f"+{from_num_formatted}"
         from_num_formatted = f"whatsapp:{from_num_formatted}"
 
+    name = contact.get("full_name", "Unknown")
+    company = contact.get("company", "N/A")
+    email = contact.get("email", "N/A")
+    c_phone = contact.get("phone", "N/A")
+    website = contact.get("website", "N/A")
+
+    body = (
+        f"🚨 *New CRM Contact Alert* 🚨\n\n"
+        f"👤 *Name:* {name}\n"
+        f"🏢 *Company:* {company}\n"
+        f"📧 *Email:* {email}\n"
+        f"📱 *Phone:* {c_phone}\n"
+        f"🌐 *Website:* {website}\n\n"
+        f"✅ _Successfully saved to Google Sheets._"
+    )
+
     payload = {
         "To": to_number,
         "From": from_num_formatted,
-        "Body": f"Alert: A new contact, {contact_name}, has been saved to the CRM system."
+        "Body": body
     }
     
     try:
