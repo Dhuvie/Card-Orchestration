@@ -7,8 +7,9 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str = ""
     GOOGLE_SHEET_ID: str = ""
     GOOGLE_SHEETS_CREDENTIALS: str = ""
-    WHATSAPP_TOKEN: str = ""
-    WHATSAPP_PHONE_ID: str = ""
+    TWILIO_ACCOUNT_SID: str = ""
+    TWILIO_AUTH_TOKEN: str = ""
+    TWILIO_WHATSAPP_FROM: str = ""
     WHATSAPP_MANAGER_PHONE: str = ""
 
     class Config:
