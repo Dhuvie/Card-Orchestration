@@ -95,8 +95,33 @@ async def append_row(data: dict) -> int:
         
         if not all_values:
             await worksheet.append_row(expected_headers)
-        elif all_values[0] != expected_headers and "ID" not in all_values[0]:
-            await worksheet.insert_row(expected_headers, index=1)
+        
+        try:
+            # Force update row 1 to perfectly named columns
+            await worksheet.update('A1:H1', [expected_headers])
+            # Make headers bold and neat
+            await worksheet.format('A1:H1', {
+                "textFormat": {"bold": True, "fontSize": 11},
+                "backgroundColor": {"red": 0.9, "green": 0.9, "blue": 0.9}
+            })
+            
+            # Auto resize columns for the new headers
+            body = {
+                "requests": [{
+                    "autoResizeDimensions": {
+                        "dimensions": {
+                            "sheetId": worksheet.id,
+                            "dimension": "COLUMNS",
+                            "startIndex": 0,
+                            "endIndex": 8
+                        }
+                    }
+                }]
+            }
+            # The spreadsheet property of AsyncioGspreadWorksheet exposes batch_update
+            await worksheet.spreadsheet.batch_update(body)
+        except Exception as sheet_format_error:
+            logger.warning(f"Formatting headers failed, but data will still append: {sheet_format_error}")
             
         # Assuming headers: ID, Full Name, Company, Email, Phone, Website, LinkedIn, Audio URL
         row = [
